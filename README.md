@@ -1,0 +1,2 @@
+# Glicerine
+PHP CLI Library
