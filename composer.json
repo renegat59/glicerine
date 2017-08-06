@@ -1,0 +1,19 @@
+{
+    "name": "renegat59/glicerine",
+    "description": "Glicerine is a simple CLI library for PHP",
+    "type": "library",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Mateusz P",
+            "email": "bananq@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Glicerine\\": "src",
+            "Glicerine\\tests\\": "tests"
+        }
+    },
+    "require": {}
+}
