@@ -18,7 +18,7 @@ class CliConfig
         $this->config = $config;
     }
 
-    public function getParam($key)
+    public function getParam($key): string
     {
         if(isset($this->cachedConfig[$key])){
             return $this->cachedConfig[$key];
@@ -36,7 +36,7 @@ class CliConfig
         return $value;
     }
 
-    public function hasParam($key)
+    public function hasParam($key): bool
     {
         try {
             $this->getParam($key);

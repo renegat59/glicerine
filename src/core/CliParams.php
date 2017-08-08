@@ -20,4 +20,17 @@ class CliParams
         $this->argv = $argv;
         $this->argc = $argc;
     }
+
+    public function getScriptName(): string
+    {
+        return $this->argv[0];
+    }
+
+    public function getCommand(): string
+    {
+        if($this->argc > 1){
+            return $this->argv[1];
+        }
+        return null;
+    }
 }
