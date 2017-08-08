@@ -18,7 +18,7 @@ class CliConfig
         $this->config = $config;
     }
 
-    public function getParam($key): string
+    public function getParam($key, $default = null): string
     {
         if(isset($this->cachedConfig[$key])){
             return $this->cachedConfig[$key];

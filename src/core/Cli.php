@@ -12,9 +12,6 @@ class Cli
 {
     private $cliParams;
 
-    const DEFAULT_ACTION = 'main';
-    const DEFAULT_COMMAND = 'main';
-
     private static $config;
 
     public function __construct($config, $argv, $argc)

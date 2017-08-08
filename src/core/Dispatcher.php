@@ -9,34 +9,39 @@ namespace Glicerine\core;
  */
 class Dispatcher
 {
-    private $params;
+
+    const DEFAULT_ACTION = 'main';
+    const DEFAULT_COMMAND = 'main';
+
+    private $cliParams;
     private $command;
     private $action;
 
     public function __construct($params)
     {
-        $this->params = $params;
+        $this->cliParams = $params;
         $this->command = $this->cliParams->getCommand() ?? $this->getDefaultCommand();
         $this->action = $this->cliParams->getAction() ?? $this->getDefaultAction();
     }
 
     public function run()
     {
-        
+        $commandClass = ucfirst($this->command).'Command';
+        $command = new $commandClass();
     }
 
     private function getDefaultCommand(): string
     {
-        if($this->config->hasParam('defaultCommand')){
-            return $this->config->getParam('defaultCommand');
+        if(Cli::getConfig()->hasParam('defaultCommand')){
+            return Cli::getConfig()->getParam('defaultCommand');
         }
         return self::DEFAULT_COMMAND;
     }
 
     private function getDefaultAction(): string
     {
-        if($this->config->hasParam('defaultAction')){
-            return $this->config->getParam('defaultAction');
+        if(Cli::getConfig()->hasParam('defaultAction')){
+            return Cli::getConfig()->getParam('defaultAction');
         }
         return self::DEFAULT_ACTION;
     }

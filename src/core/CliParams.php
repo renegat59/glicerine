@@ -26,10 +26,18 @@ class CliParams
         return $this->argv[0];
     }
 
-    public function getCommand(): string
+    public function getCommand()
     {
         if($this->argc > 1){
             return $this->argv[1];
+        }
+        return null;
+    }
+
+    public function getAction()
+    {
+        if($this->argc > 2){
+            return $this->argv[2];
         }
         return null;
     }
