@@ -26,6 +26,7 @@ class Dispatcher
 
     public function run()
     {
+        $commandsPath = Cli::getConfig()->getParam('commandsPath');
         $commandClass = ucfirst($this->command).'Command';
         $command = new $commandClass();
     }
