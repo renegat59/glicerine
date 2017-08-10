@@ -13,12 +13,12 @@ class CliConfig
     private $config = [];
     private $cachedConfig = [];
 
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $this->config = $config;
     }
 
-    public function getParam($key, $default = null): string
+    public function getParam(string $key, string $default = null): string
     {
         if(isset($this->cachedConfig[$key])){
             return $this->cachedConfig[$key];
@@ -28,6 +28,10 @@ class CliConfig
         $keyLength = count($keys);
         for ($ii = 0; $ii < $keyLength; $ii++) {
             if (!isset($value[$keys[$ii]])) {
+                if($default !== null){
+                    $value = $default;
+                    break;
+                }
                 throw new \Glicerine\exceptions\GlicerineException("Config key <$keys[$ii]> incorrect");
             }
             $value = $value[$keys[$ii]];

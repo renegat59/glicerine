@@ -1,7 +1,5 @@
 <?php
 
-namespace Glicerine\core;
-
 /**
  * Description of CliParams
  *
@@ -14,11 +12,13 @@ class CliParams
 {
     private $argv;
     private $argc;
+    private $cwd;
     
-    public function __construct($argv, $argc)
+    public function __construct($argv, $argc, $cwd)
     {
         $this->argv = $argv;
         $this->argc = $argc;
+        $this->cwd = $cwd;
     }
 
     public function getScriptName(): string
@@ -40,5 +40,10 @@ class CliParams
             return $this->argv[2];
         }
         return null;
+    }
+
+    public function getCwd()
+    {
+        return $this->cwd;
     }
 }
