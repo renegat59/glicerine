@@ -13,43 +13,27 @@ class Dispatcher
     const DEFAULT_ACTION = 'main';
     const DEFAULT_COMMAND = 'main';
 
-    /**
-     * @var CliParams
-     */
-    private $cliParams;
     private $command;
     private $action;
 
-    public function __construct(CliParams $params)
+    public function run(CliParams $params)
     {
-        $this->cliParams = $params;
-        $this->command = $this->cliParams->getCommand() ?? $this->getDefaultCommand();
-        $this->action = $this->cliParams->getAction() ?? $this->getDefaultAction();
+        $commandName = $params->getCommand() ?? $this->getDefaultCommand();
+        $action = $params->getAction() ?? $this->getDefaultAction();
+        $commandsNamespace = Cli::getConfig()->getParam('commandsNamespace');
+        $commandClass = $commandsNamespace.'\\'.ucfirst($commandName).'Command';
+        if (!is_subclass_of($commandClass, 'Glicerine\core\Command')) {
+            throw new \Glicerine\exceptions\GlicerineException('Class must extend Glicerine\core\Command class');
+        }
+        $command = new $commandClass($params);
+        $this->runAction($command, $action);
     }
 
-    public function run()
+    private function runAction($command, $action)
     {
-        $commandPath = Cli::getConfig()->getParam('commandsPath', 'src/commands');
-        $commandClass = ucfirst($this->command).'Command';
-        require $this->cliParams->getCwd()
-            .DIRECTORY_SEPARATOR
-            .$commandPath
-            .DIRECTORY_SEPARATOR
-            .$commandClass.'.php';
-//        if ($this->controllerNamespace === null) {
-//            $class = get_class($this);
-//            if (($pos = strrpos($class, '\\')) !== false) {
-//                $this->controllerNamespace = substr($class, 0, $pos) . '\\controllers';
-//            }
-//        }
-//        if (is_subclass_of($className, 'yii\base\Controller')) {
-//            $controller = Yii::createObject($className, [$id, $this]);
-//            return get_class($controller) === $className ? $controller : null;
-//        } elseif (YII_DEBUG) {
-//            throw new InvalidConfigException('Controller class must extend from \\yii\\base\\Controller.');
-//        }
-        $command = new $commandClass();
-        var_dump($command);
+        if($command->validateParams()){
+            $command->$action();
+        }
     }
 
     private function getDefaultCommand(): string

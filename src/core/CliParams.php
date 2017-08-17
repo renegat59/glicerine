@@ -46,4 +46,9 @@ class CliParams
     {
         return $this->cwd;
     }
+
+    public function getParam($param)
+    {
+        //TODO: Implement
+    }
 }

@@ -25,8 +25,8 @@ class Cli
 
     public function start(): int
     {
-        $dispatcher = new Dispatcher($this->cliParams);
-        $dispatcher->run();
+        $dispatcher = new Dispatcher();
+        $dispatcher->run($this->cliParams);
         return ExitCode::SUCCESS;
     }
 
