@@ -85,4 +85,9 @@ class Command
         return $this->params->getParam($paramName);
     }
 
+    public function help()
+    {
+        echo "Will show help here";
+    }
+
 }

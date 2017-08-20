@@ -83,7 +83,7 @@ class CliParams
                 } elseif($index === 2 && !$this->hasParams()) {
                     $this->action = $argv[$index];
                 } else {
-                    throw new \Glicerine\exceptions\InvalidCommandException('exception');
+                    throw new \Glicerine\exceptions\InvalidCommandException('Command Malformed');
                 }
                 
             }
