@@ -30,25 +30,11 @@ class CliParams
     public function getCommand()
     {
         return $this->command;
-//        if($this->argc > 1){
-//            $command = $this->argv[1];
-//            if(0 !== strpos($command, '--')) {
-//                return $command;
-//            }
-//        }
-//        return null;
     }
 
     public function getAction()
     {
         return $this->action;
-//        if($this->argc > 2){
-//            $action = $this->argv[2];
-//            if(0 !== strpos($action, '--')) {
-//                return $action;
-//            }
-//        }
-//        return null;
     }
 
     public function getCwd()
@@ -61,24 +47,46 @@ class CliParams
         return $this->params[$param] ?? null;
     }
 
-    public function seatParam($param, $value)
+    public function setParam($param, $value)
     {
         $this->params[$param] = $value;
     }
 
-    private function prepareParams($argv, $argc)
+    private function addParam(string $cliParam)
+    {
+        list($paramName, $paramValue) = explode('=', $cliParam);
+        $this->params[substr($paramName, 2)] = $paramValue;
+    }
+
+    protected function hasParams(): bool
+    {
+        return !empty($this->params);
+    }
+
+    private function prepareParams(array $argv, int $argc)
     {
         $this->scriptName = $argv[0];
-        for($index = 1; $index < $argc; $index++) {
-//            if($index == 1){
-//               $command = $argv[1];
-//               if(0 !== strpos($command, '--')) {
-//
-//               }
-//            }
-//            if(0 === strpos($arg, '--')) {
-//
-//            }
+
+        $argvCount = count($argv);
+
+        if($argc !== $argvCount) {
+            throw new \Glicerine\exceptions\InvalidCommandException('argc not matching length of argv');
+        }
+
+        for($index = 1; $index < $argvCount; $index++) {
+            
+            if(0 === strpos($argv[$index], '--')) {
+                $this->addParam($argv[$index]);
+            } else {
+                if($index === 1) {
+                    $this->command = $argv[$index];
+                } elseif($index === 2 && !$this->hasParams()) {
+                    $this->action = $argv[$index];
+                } else {
+                    throw new \Glicerine\exceptions\InvalidCommandException('exception');
+                }
+                
+            }
         }
     }
 }

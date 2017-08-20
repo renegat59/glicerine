@@ -50,18 +50,16 @@ class CliParamsTest extends PHPUnit\Framework\TestCase
         $this->assertNull($cliParams->getParam('param1'));
 
         $this->expectException(\Glicerine\exceptions\InvalidCommandException::class);
-        $cliParams = new \Glicerine\core\CliParams(['test', '--param1', 'cmd'], 3, '/');
+        $cliParams = new \Glicerine\core\CliParams(['test', '--param1=1', 'cmd'], 3, '/');
 
         $this->expectException(\Glicerine\exceptions\InvalidCommandException::class);
-        $cliParams = new \Glicerine\core\CliParams(['test', '--param1', '--param2', 'cmd'], 4, '/');
+        $cliParams = new \Glicerine\core\CliParams(['test', '--param1=1', '--param2', 'cmd'], 4, '/');
 
         $cliParams = new \Glicerine\core\CliParams(['test', 'cmd', 'act', '--param1=1'], 3, '/');
 
         $this->assertEquals('cmd', $cliParams->getCommand());
         $this->assertEquals('act', $cliParams->getAction());
         $this->assertEquals('1', $cliParams->getParam('param1'));
-
-        
 
     }
 
