@@ -9,6 +9,9 @@ namespace Glicerine\core;
  */
 class Command
 {
+    /**
+     * @var CliParams
+     */
     private $params;
     private $errors;
 
@@ -25,13 +28,13 @@ class Command
 
     protected function validationRules()
     {
-        
+        return [];
     }
 
-    public function validateParams(): boolean
+    public function validateParams(): bool
     {
         $rulset = $this->validationRules();
-        foreach($rulset as $param => $rules) {
+        foreach($rulset as $paramName => $rules) {
             foreach($rules as $ruleDefinition) {
                 $validatorClass = '';
                 $validatorParams = [];
@@ -46,9 +49,13 @@ class Command
                     $validatorClass = $ruleDefinition['class'];
                     $validatorParams = $ruleDefinition['params'] ?? [];
                 }
+
                 $validator = new $validatorClass($validatorParams);
+                $param = $this->getParam($paramName);
                 if(!$validator->validate($param)) {
-                    $this->addErrors($param, $validator->getErrors());
+                    $this->addErrors($paramName, $validator->getErrors());
+                } elseif($validator->isFiltering()) {
+                    $this->params->setParam($paramName, $validator->getFilteredParam());
                 }
             }
         }
@@ -68,7 +75,7 @@ class Command
         return $this->errors;
     }
 
-    public function hasErrors(): boolean
+    public function hasErrors(): bool
     {
         return !empty($this->errors);
     }

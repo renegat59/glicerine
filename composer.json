@@ -15,5 +15,11 @@
             "Glicerine\\tests\\": "tests"
         }
     },
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    },
+    "scripts":{
+        "test": "./vendor/bin/phpunit -c phpunit.xml"
+    }
 }

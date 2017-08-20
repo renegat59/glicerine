@@ -29,7 +29,10 @@ class CliParams
     public function getCommand()
     {
         if($this->argc > 1){
-            return $this->argv[1];
+            $command = $this->argv[1];
+            if(0 !== strpos($command, '--')) {
+                return $command;
+            }
         }
         return null;
     }
@@ -37,7 +40,10 @@ class CliParams
     public function getAction()
     {
         if($this->argc > 2){
-            return $this->argv[2];
+            $action = $this->argv[2];
+            if(0 !== strpos($action, '--')) {
+                return $action;
+            }
         }
         return null;
     }
@@ -48,6 +54,11 @@ class CliParams
     }
 
     public function getParam($param)
+    {
+        //TODO: Implement
+    }
+
+    public function seatParam($param, $value)
     {
         //TODO: Implement
     }
