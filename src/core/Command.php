@@ -35,11 +35,15 @@ class Command
         return [];
     }
 
-    public function validateParams(): bool
+    public function validateParams($action): bool
     {
-        $rulset = $this->validationRules();
-        foreach($rulset as $paramName => $rules) {
+        
+        $ruleset = $this->validationRules();
+        $actionRules = $ruleset[$action] ?? [];
+
+        foreach($actionRules as $paramName => $rules) {
             foreach($rules as $ruleDefinition) {
+                
                 $validatorClass = '';
                 $validatorParams = [];
                 if(is_string($ruleDefinition)){
@@ -84,7 +88,7 @@ class Command
         return !empty($this->errors);
     }
 
-    protected function getParam(string $paramName): string
+    protected function getParam(string $paramName)
     {
         return $this->params->getParam($paramName);
     }

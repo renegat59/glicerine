@@ -25,6 +25,7 @@ class Cli
         if(ini_get('register_argc_argv') != "1") {
             throw new GlicerineException('register_argc_argv is not enabled in your INI file');
         }
+        
         Cli::setConfig(new CliConfig($config));
         
         try {

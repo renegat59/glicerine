@@ -34,7 +34,7 @@ class Dispatcher
 
     private function runAction($command, $action)
     {
-        if($command->validateParams()){
+        if($command->validateParams($action)){
             $command->$action();
         }
     }
