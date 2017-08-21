@@ -2,6 +2,10 @@
 
 namespace Glicerine\core;
 
+use Glicerine\console\Color;
+use Glicerine\console\Output;
+use Glicerine\exceptions\InvalidConfigurationException;
+
 /**
  * Base Command class
  *
@@ -42,7 +46,7 @@ class Command
                     $validatorClass = $ruleDefinition;
                 } elseif (is_array($ruleDefinition)) {
                     if(!isset($ruleDefinition['class'])){
-                        throw new \Glicerine\exceptions\InvalidConfigurationException(
+                        throw new InvalidConfigurationException(
                             'Rule definition must have class field'
                         );
                     }
@@ -87,7 +91,7 @@ class Command
 
     public function help()
     {
-        echo "Will show help here";
+        Output::writeLine("Will show help here", Color::GREEN);
     }
 
 }
