@@ -10,4 +10,6 @@ namespace Glicerine\core;
 class ExitCode
 {
     const SUCCESS = 0;
+    const CONFIG_ERROR = 1;
+    const CLI_ERROR = 2;
 }

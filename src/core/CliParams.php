@@ -54,6 +54,9 @@ class CliParams
 
     private function addParam(string $cliParam)
     {
+        if(strpos($cliParam, '=') === false) {
+            $cliParam .= '=true';
+        }
         list($paramName, $paramValue) = explode('=', $cliParam);
         $this->params[substr($paramName, 2)] = $paramValue;
     }

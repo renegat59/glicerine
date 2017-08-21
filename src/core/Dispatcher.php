@@ -23,7 +23,7 @@ class Dispatcher
         $commandsNamespace = Cli::getConfig()->getParam('commandsNamespace');
         $commandClass = $commandsNamespace.'\\'.ucfirst($commandName).'Command';
         if(!class_exists($commandClass)){
-            throw new ClassNotFoundException('class '.$commandClass.' not found');
+            throw new ClassNotFoundException('Class '.$commandClass.' not found');
         }
         if (!is_subclass_of($commandClass, 'Glicerine\core\Command')) {
             throw new GlicerineException('Class must extend Glicerine\core\Command class');
