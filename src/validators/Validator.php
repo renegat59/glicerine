@@ -11,6 +11,7 @@ abstract class Validator
 {
     protected $param;
     protected $filter = true;
+    protected $errorMessage = self::class.' error';
     private $errors = [];
 
     protected abstract function validateParam();
@@ -44,12 +45,20 @@ abstract class Validator
         return $this->errors;
     }
 
-    final public function validate(string $param): bool
+    public function hasErrors(): bool
+    {
+        return !empty($this->errors);
+    }
+
+    final public function validate($param): bool
     {
         $this->param = $param;
         $paramValid = $this->validateParam();
         if ($this->filter) {
             $this->filterParam();
+        }
+        if(!$paramValid) {
+            $this->addError($this->errorMessage);
         }
         return $paramValid;
     }

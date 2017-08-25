@@ -98,4 +98,15 @@ class Command
         Output::writeLine("Will show help here", Color::GREEN);
     }
 
+    public function printErrors()
+    {
+        Output::writeLine('Validation errors:');
+        foreach ($this->errors as $param => $errors) {
+            foreach($errors as $error) {
+                Output::writeLine($param.': '.$error, Color::RED);
+            }
+            
+        }
+    }
+
 }

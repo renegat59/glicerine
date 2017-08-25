@@ -36,6 +36,8 @@ class Dispatcher
     {
         if($command->validateParams($action)){
             $command->$action();
+        } else {
+            $command->printErrors();
         }
     }
 
