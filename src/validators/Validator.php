@@ -24,7 +24,7 @@ abstract class Validator
     protected $errorMessage = '';
     private $errors = [];
 
-    protected abstract function validateParam();
+    protected abstract function validateParam(): bool;
 
     public function __construct($params = [])
     {
@@ -33,16 +33,6 @@ abstract class Validator
                 $this->$param = $value;
             }
         }
-        $this->setParams($params);
-    }
-
-    /**
-     * Optionally we can set some params here if they are not straightforward
-     * @param type $params
-     */
-    protected function setParams($params = [])
-    {
-        // ??
     }
 
     protected function addError(string $error)
@@ -67,7 +57,7 @@ abstract class Validator
         if ($this->filter) {
             $this->filterParam();
         }
-        if(!$paramValid && !empty($this->errorMessage)) {
+        if(!$paramValid) {
             $this->addError($this->formatErrorMessage());
         }
         return $paramValid;
@@ -88,8 +78,19 @@ abstract class Validator
         return $this->filter;
     }
 
+    protected function buildErrorMessage(): string
+    {
+        return $this->errorMessage;
+    }
+
+    protected function hasCustomErrorMessage()
+    {
+        return !empty($this->errorMessage);
+    }
+
     private function formatErrorMessage()
     {
-        return str_replace('{param}', $this->param, $this->errorMessage);
+        $errorMessage = $this->hasCustomErrorMessage() ? $this->errorMessage : $this->buildErrorMessage();
+        return str_replace('{param}', $this->param, $errorMessage);
     }
 }

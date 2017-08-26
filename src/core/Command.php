@@ -4,7 +4,6 @@ namespace Glicerine\core;
 
 use Glicerine\console\Color;
 use Glicerine\console\Output;
-use Glicerine\validators\Validator;
 use Glicerine\validators\ValidatorFactory;
 
 /**
@@ -37,7 +36,7 @@ class Command
     }
 
     /**
-     * This funtion returns the list of enabled actions.
+     * This function returns the list of enabled actions.
      * This is to be able to enable/disable the actions if needed.
      * If array is empty (No actions defined) then all actions are enabled by default.
      */
