@@ -16,6 +16,7 @@ class NumericValidator extends Validator
     protected $nonZero = false;
     protected $min = false;
     protected $max = false;
+    protected $range = false;
 
     protected function validateParam(): bool
     {
@@ -32,6 +33,10 @@ class NumericValidator extends Validator
 
     private function validRange()
     {
+        if(is_array($this->range) && isset($this->range[0]) && isset($this->range[1])) {
+            $this->min = $this->range[0];
+            $this->max = $this->range[1];
+        }
         $validMin = ($this->min !== false) ? ($this->param >= $this->min) : true;
         $validMax = ($this->max !== false) ? ($this->param <= $this->max) : true;
         return $validMin && $validMax;
