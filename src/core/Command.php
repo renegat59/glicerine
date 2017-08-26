@@ -4,7 +4,8 @@ namespace Glicerine\core;
 
 use Glicerine\console\Color;
 use Glicerine\console\Output;
-use Glicerine\exceptions\InvalidConfigurationException;
+use Glicerine\validators\Validator;
+use Glicerine\validators\ValidatorFactory;
 
 /**
  * Base Command class
@@ -40,25 +41,13 @@ class Command
         
         $ruleset = $this->validationRules();
         $actionRules = $ruleset[$action] ?? [];
+        $validatorFactory = new ValidatorFactory();
 
         foreach($actionRules as $paramName => $rules) {
             foreach($rules as $ruleDefinition) {
                 
-                $validatorClass = '';
-                $validatorParams = [];
-                if(is_string($ruleDefinition)){
-                    $validatorClass = $ruleDefinition;
-                } elseif (is_array($ruleDefinition)) {
-                    if(!isset($ruleDefinition['class'])){
-                        throw new InvalidConfigurationException(
-                            'Rule definition must have class field'
-                        );
-                    }
-                    $validatorClass = $ruleDefinition['class'];
-                    $validatorParams = $ruleDefinition['params'] ?? [];
-                }
+                $validator = $validatorFactory->buildValidator($ruleDefinition);
 
-                $validator = new $validatorClass($validatorParams);
                 $param = $this->getParam($paramName);
                 if(!$validator->validate($param)) {
                     $this->addErrors($paramName, $validator->getErrors());

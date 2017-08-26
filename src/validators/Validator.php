@@ -2,6 +2,8 @@
 
 namespace Glicerine\validators;
 
+use Glicerine\exceptions\InvalidConfigurationException;
+
 /**
  * Description of Validator
  *
@@ -11,7 +13,14 @@ abstract class Validator
 {
     protected $param;
     protected $filter = true;
-    protected $errorMessage = self::class.' error';
+    /**
+     * errorMessage is the message used in the default validators.
+     * If user wishes to make his own validators he can add as many messages as he want
+     * using addError(). Default validators have only one message which can be customized
+     * by setting it in the params.
+     * @var string 
+     */
+    protected $errorMessage = '';
     private $errors = [];
 
     protected abstract function validateParam();
@@ -32,7 +41,7 @@ abstract class Validator
      */
     protected function setParams($params = [])
     {
-
+        // ??
     }
 
     protected function addError(string $error)
@@ -76,5 +85,25 @@ abstract class Validator
     public function isFiltering(): bool
     {
         return $this->filter;
+    }
+
+    public static function build($validatorDefinition)
+    {
+        $validatorClass = '';
+        $validatorAttributes = [];
+        if(is_string($validatorDefinition)){
+            $validatorClass = $validatorDefinition;
+        } elseif (is_array($validatorDefinition)) {
+            if(!isset($validatorDefinition['class'])){
+                throw new InvalidConfigurationException(
+                    'Rule definition must have class field'
+                );
+            }
+            $validatorClass = $validatorDefinition['class'];
+            unset($validatorDefinition['class']);
+            $validatorAttributes = $validatorDefinition ?? [];
+        }
+
+        return new $validatorClass($validatorAttributes);
     }
 }
