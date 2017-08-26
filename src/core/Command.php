@@ -26,9 +26,29 @@ class Command
         $this->init();
     }
 
+    
+    final public function actions(): array
+    {
+        $enabledActions = $this->enabledActions();
+        if(!empty($enabledActions)) {
+            return array_merge($enabledActions, ['help']);
+        }
+        return [];
+    }
+
+    /**
+     * This funtion returns the list of enabled actions.
+     * This is to be able to enable/disable the actions if needed.
+     * If array is empty (No actions defined) then all actions are enabled by default.
+     */
+    protected function enabledActions(): array
+    {
+        return [];
+    }
+
     protected function init()
     {
-        
+        return;
     }
 
     protected function validationRules()
@@ -38,16 +58,13 @@ class Command
 
     public function validateParams($action): bool
     {
-        
         $ruleset = $this->validationRules();
         $actionRules = $ruleset[$action] ?? [];
         $validatorFactory = new ValidatorFactory();
 
         foreach($actionRules as $paramName => $rules) {
-            foreach($rules as $ruleDefinition) {
-                
-                $validator = $validatorFactory->buildValidator($ruleDefinition);
-
+            foreach($rules as $vaildatorDefinition) {
+                $validator = $validatorFactory->buildValidator($vaildatorDefinition);
                 $param = $this->getParam($paramName);
                 if(!$validator->validate($param)) {
                     $this->addErrors($paramName, $validator->getErrors());
@@ -94,7 +111,6 @@ class Command
             foreach($errors as $error) {
                 Output::writeLine($param.': '.$error, Color::RED);
             }
-            
         }
     }
 

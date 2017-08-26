@@ -13,6 +13,7 @@ abstract class Validator
 {
     protected $param;
     protected $filter = true;
+    
     /**
      * errorMessage is the message used in the default validators.
      * If user wishes to make his own validators he can add as many messages as he want
@@ -66,8 +67,8 @@ abstract class Validator
         if ($this->filter) {
             $this->filterParam();
         }
-        if(!$paramValid) {
-            $this->addError($this->errorMessage);
+        if(!$paramValid && !empty($this->errorMessage)) {
+            $this->addError($this->formatErrorMessage());
         }
         return $paramValid;
     }
@@ -87,23 +88,8 @@ abstract class Validator
         return $this->filter;
     }
 
-    public static function build($validatorDefinition)
+    private function formatErrorMessage()
     {
-        $validatorClass = '';
-        $validatorAttributes = [];
-        if(is_string($validatorDefinition)){
-            $validatorClass = $validatorDefinition;
-        } elseif (is_array($validatorDefinition)) {
-            if(!isset($validatorDefinition['class'])){
-                throw new InvalidConfigurationException(
-                    'Rule definition must have class field'
-                );
-            }
-            $validatorClass = $validatorDefinition['class'];
-            unset($validatorDefinition['class']);
-            $validatorAttributes = $validatorDefinition ?? [];
-        }
-
-        return new $validatorClass($validatorAttributes);
+        return str_replace('{param}', $this->param, $this->errorMessage);
     }
 }

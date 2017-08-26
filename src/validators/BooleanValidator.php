@@ -18,6 +18,8 @@ class BooleanValidator extends Validator
      */
     protected $tfValues = [];
 
+    protected $errorMessage = '{param} must be a valid boolean value';
+
     protected function validateParam()
     {
         return $this->isValidTrue() || $this->isValidFalse();

@@ -34,6 +34,13 @@ class Dispatcher
 
     private function runAction($command, $action)
     {
+        $enabledActions = $command->actions();
+        if(!empty($enabledActions) && !in_array($action, $enabledActions)) {
+            throw new \Glicerine\exceptions\InvalidCommandException('Action not enabled');
+        }
+        if(!method_exists($command, $action)) {
+            throw new \Glicerine\exceptions\InvalidCommandException('Action not found');
+        }
         if($command->validateParams($action)){
             $command->$action();
         } else {

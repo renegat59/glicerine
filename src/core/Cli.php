@@ -48,6 +48,10 @@ class Cli
             Output::writeLine('Command not found', Color::RED);
             Output::writeLine('Exception: '.$cnfex->getMessage());
             self::exitCli(ExitCode::CONFIG_ERROR);
+        } catch(InvalidCommandException $icex) {
+            Output::writeLine('Command invalid. Run help for more information', Color::RED);
+            Output::writeLine('Exception: '.$icex->getMessage());
+            self::exitCli(ExitCode::INVALID_COMMAND);
         }
     }
 
