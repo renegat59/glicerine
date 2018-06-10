@@ -32,8 +32,8 @@ class Command
     {
         return;
     }
-    
-    final public function actions(): array
+
+    final public function actions() : array
     {
         $definedActions = array_keys($this->actionInfo);
         return array_merge($definedActions, ['help']);
@@ -45,22 +45,23 @@ class Command
         return $this->actionInfo[$actionName];
     }
 
-    private function getValidationRules($action) {
+    private function getValidationRules($action)
+    {
         return $this->actionInfo[$action] ?? [];
     }
 
-    public function validateParams($action): bool
+    public function validateParams($action) : bool
     {
         $actionRules = $this->getValidationRules($action);
         $validatorFactory = new ValidatorFactory();
 
-        foreach($actionRules as $paramName => $rules) {
-            foreach($rules as $vaildatorDefinition) {
+        foreach ($actionRules as $paramName => $rules) {
+            foreach ($rules as $vaildatorDefinition) {
                 $validator = $validatorFactory->buildValidator($vaildatorDefinition);
                 $param = $this->getParam($paramName);
-                if(!$validator->validate($param)) {
+                if (!$validator->validate($param)) {
                     $this->addErrors($paramName, $validator->getErrors());
-                } elseif($validator->isFiltering()) {
+                } elseif ($validator->isFiltering()) {
                     $this->params->setParam($paramName, $validator->getFilteredParam());
                 }
             }
@@ -70,7 +71,7 @@ class Command
 
     protected function addErrors(string $param, array $errors)
     {
-        if(!isset($this->errors[$param])) {
+        if (!isset($this->errors[$param])) {
             $this->errors[$param] = [];
         }
         $this->errors[$param] = array_merge($this->errors[$param], $errors);
@@ -81,7 +82,7 @@ class Command
         return $this->errors;
     }
 
-    public function hasErrors(): bool
+    public function hasErrors() : bool
     {
         return !empty($this->errors);
     }
@@ -93,11 +94,16 @@ class Command
 
     public function help()
     {
-        Output::writeLine("Available actions:", Color::GREEN);
+        $command = $params->getComand();
+        Output::writeLine("Available actions in $command:", Color::GREEN);
         $actions = $this->actions();
-        foreach($actions as $action) {
+        foreach ($actions as $action) {
             $description = $this->actionInfo[$action]->getDescription();
             Output::writeLine("  - $action - $description", Color::GREEN);
+            $paramDescriptions = $this->actionInfo[$action]->getParamDescriptions();
+            foreach ($paramDescriptions as $param => $paramDescription) {
+                Output::writeLine("    $param: $paramDescription", Color::GREEN);
+            }
         }
     }
 
@@ -105,8 +111,8 @@ class Command
     {
         Output::writeLine('Validation errors:');
         foreach ($this->errors as $param => $errors) {
-            foreach($errors as $error) {
-                Output::writeLine($param.': '.$error, Color::RED);
+            foreach ($errors as $error) {
+                Output::writeLine($param . ': ' . $error, Color::RED);
             }
         }
     }

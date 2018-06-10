@@ -47,4 +47,18 @@ class ActionPrototype
   public function getValidationRules() {
     return $this->rules;
   }
+
+  public function getParamDescriptions() {
+    $descriptions = $this->descriptions;
+    //add empty descriptoins for each param that has defined rules:
+    foreach($this->rules as $param => $rule) {
+      if(!isset($descriptions[$param])) {
+        $descriptions[$param] = '';
+      }
+    }
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
 }
