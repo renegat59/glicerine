@@ -28,29 +28,15 @@ class Command
         $this->init();
     }
 
-    
-    final public function actions(): array
-    {
-        $enabledActions = $this->enabledActions();
-        if(!empty($enabledActions)) {
-            return array_merge($enabledActions, ['help']);
-        }
-        return [];
-    }
-
-    /**
-     * This function returns the list of enabled actions.
-     * This is to be able to enable/disable the actions if needed.
-     * If array is empty (No actions defined) then all actions are enabled by default.
-     */
-    protected function enabledActions(): array
-    {
-        return [];
-    }
-
     protected function init()
     {
         return;
+    }
+    
+    final public function actions(): array
+    {
+        $definedActions = array_keys($this->actionInfo);
+        return array_merge($definedActions, ['help']);
     }
 
     protected function &proto($actionName, $actionDescription)
@@ -107,7 +93,11 @@ class Command
 
     public function help()
     {
-        Output::writeLine("Will show help here", Color::GREEN);
+        Output::writeLine("Available actions:", Color::GREEN);
+        $actions = $this->actions();
+        foreach($actions as $action) {
+            Output::writeLine("\t- $action", Color::GREEN);
+        }
     }
 
     public function printErrors()
