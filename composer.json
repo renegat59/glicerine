@@ -2,7 +2,7 @@
     "name": "renegat59/glicerine-local",
     "description": "Glicerine is a simple CLI library for PHP",
     "type": "library",
-    "version": "0.0.1@dev",
+    "version": "0.1.0",
     "license": "mit",
     "authors": [
         {
