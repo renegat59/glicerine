@@ -46,7 +46,7 @@ class Command
 
     private function getValidationRules($action)
     {
-        return $this->actionInfo[$action] ?? [];
+        return isset($this->actionInfo[$action]) ? $this->actionInfo[$action]->getValidationRules() : [];
     }
 
     public function validateParams($action) : bool

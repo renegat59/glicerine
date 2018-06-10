@@ -29,6 +29,6 @@ class DateValidator extends Validator
 
     protected function buildErrorMessage() : string
     {
-        return "{param} is not a valid date. Expected format: $this->format";
+        return "'{param}' is not a valid date. Expected format: $this->format";
     }
 }

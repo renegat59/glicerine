@@ -68,6 +68,6 @@ class NumericValidator extends Validator
 
     protected function buildErrorMessage(): string
     {
-        return '{param} is not a valid numeric value';
+        return "'{param}' is not a valid numeric value";
     }
 }

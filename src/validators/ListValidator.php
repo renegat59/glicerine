@@ -30,6 +30,6 @@ class ListValidator extends Validator
 
     protected function buildErrorMessage() : string
     {
-        return "{param} is not a valid list. Use the list delimited by '$this->delimiter'";
+        return "'{param}' is not a valid list. Use the list delimited by '$this->delimiter'";
     }
 }

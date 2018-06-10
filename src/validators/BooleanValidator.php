@@ -51,7 +51,7 @@ class BooleanValidator extends Validator
 
     protected function buildErrorMessage(): string
     {
-        $message = '{param} is not a valid boolean value.';
+        $message = "'{param}' is not a valid boolean value.";
         if(!empty($this->tfValues)) {
             $message .= ' Alowed values are '.implode('/', $this->tfValues);
         } else {

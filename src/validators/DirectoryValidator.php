@@ -30,7 +30,7 @@ class DirectoryValidator extends Validator
 
     protected function buildErrorMessage(): string
     {
-        $message = "{param} is not a valid directory string.";
+        $message = "'{param}' is not a valid directory string.";
         if($this->checkExists) {
             $message .= " Or directory does not exist";
         }
