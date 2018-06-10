@@ -2,7 +2,7 @@
 
 <?php
 
-require(__DIR__.'/../autoload.php');
+include_once(__DIR__.'/../../autoload.php');
 $cwd = getcwd();
 $config = require("$cwd/config.php");
 
