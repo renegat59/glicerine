@@ -41,6 +41,7 @@ class ActionPrototype
     foreach($rules as $rule) {
       $this->addParamRule($param, $rule);
     }
+    return $this;
   }
 
   public function getValidationRules() {
