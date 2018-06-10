@@ -116,7 +116,7 @@ class Command
         Output::writeLine('Validation errors:');
         foreach ($this->errors as $param => $errors) {
             foreach ($errors as $error) {
-                Output::writeLine($param . ': ' . $error, Color::RED);
+                Output::writeErrorLine($param . ': ' . $error);
             }
         }
     }

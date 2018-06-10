@@ -55,7 +55,7 @@ abstract class Validator
 
     protected function addError(string $error)
     {
-        $this->errors[] = $error;
+        $this->errors[] = $this->formatErrorMessage($error);
     }
 
     public function getErrors() : array
@@ -72,9 +72,6 @@ abstract class Validator
     {
         $this->param = $param;
         $paramValid = $this->validateParam();
-        if (!$paramValid) {
-            $this->addError($this->formatErrorMessage());
-        }
         return $paramValid;
     }
 
@@ -96,19 +93,13 @@ abstract class Validator
         return $this->filter;
     }
 
-    protected function buildErrorMessage() : string
-    {
-        return $this->errorMessage;
-    }
-
     protected function hasCustomErrorMessage()
     {
         return !empty($this->errorMessage);
     }
 
-    private function formatErrorMessage()
+    private function formatErrorMessage($error)
     {
-        $errorMessage = $this->hasCustomErrorMessage() ? $this->errorMessage : $this->buildErrorMessage();
-        return str_replace('{param}', $this->param, $errorMessage);
+        return str_replace('{param}', $this->param, $error);
     }
 }

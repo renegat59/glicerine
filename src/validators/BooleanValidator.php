@@ -18,7 +18,11 @@ class BooleanValidator extends Validator
 
     protected function validateParam(): bool
     {
-        return $this->isValidTrue() || $this->isValidFalse();
+        if(!$this->isValidTrue() && !$this->isValidFalse()) {
+            $this->addError($this->buildErrorMessage());
+            return false;
+        }
+        return true;
     }
 
     protected function filterParam()
@@ -49,7 +53,7 @@ class BooleanValidator extends Validator
         return $this->param == '0' || 0 === strcasecmp('false', $this->param);
     }
 
-    protected function buildErrorMessage(): string
+    private function buildErrorMessage(): string
     {
         $message = "'{param}' is not a valid boolean value.";
         if(!empty($this->tfValues)) {

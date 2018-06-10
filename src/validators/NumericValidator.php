@@ -13,13 +13,23 @@ class NumericValidator extends Validator
     protected $onlyFloat = false;
     protected $min = false;
     protected $max = false;
-    protected $range = false;
+    protected $range = [];
 
     protected function validateParam(): bool
     {
         $validNumeric = $this->validNumeric();
+        if(!$validNumeric) {
+            $this->addError("'{param}' is not a valid numeric value");
+        }
         $validInt = $this->validInt();
+        if(!$validNumeric) {
+            $this->addError("'{param}' is not a valid Integer");
+        }
         $validRange = $this->validRange();
+        if(!$validRange) {
+            $range = implode('-', $this->range);
+            $this->addError("'{param}' is out of range ($range)");
+        }
         return $validNumeric && $validInt && $validRange;
     }
 
@@ -64,10 +74,5 @@ class NumericValidator extends Validator
         if($this->onlyFloat) {
             return (float) $this->param;
         }
-    }
-
-    protected function buildErrorMessage(): string
-    {
-        return "'{param}' is not a valid numeric value";
     }
 }

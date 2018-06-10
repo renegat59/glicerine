@@ -14,14 +14,14 @@ class ActionPrototype
   private $rules = [];
   private $descriptions = [];
 
-  public function __construct($name, $description)
+  public function __construct($name='', $description='')
   {
     $this->name = $name;
     $this->description = $description;
     return $this;
   }
 
-  public function addParamDescription($param, $description)
+  public function addParamDescription($param, $description = '')
   {
     $this->descriptions[$param] = $description;
     return $this;
@@ -44,7 +44,10 @@ class ActionPrototype
     return $this;
   }
 
-  public function getValidationRules() {
+  public function getValidationRules($param=null) {
+    if($param !== null) {
+      return $this->rules[$param];
+    }
     return $this->rules;
   }
 

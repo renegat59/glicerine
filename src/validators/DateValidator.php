@@ -19,16 +19,16 @@ class DateValidator extends Validator
     private function isValidDate() : bool
     {
         $date = \DateTime::createFromFormat($this->format, $this->param);
-        return $date && $date->format($this->format) === $this->param;
+        if(!($date && $date->format($this->format) === $this->param))
+        {
+            $this->addError("'{param}' is not a valid date. Expected format: $this->format");
+            return false;
+        }
+        return true;
     }
 
     protected function filterParam()
     {
         return \DateTime::createFromFormat($this->format, $this->param);
-    }
-
-    protected function buildErrorMessage() : string
-    {
-        return "'{param}' is not a valid date. Expected format: $this->format";
     }
 }

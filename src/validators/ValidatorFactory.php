@@ -2,6 +2,8 @@
 
 namespace Glicerine\validators;
 
+use Glicerine\exceptions\InvalidConfigurationException;
+
 /**
  * Description of ValidatorFactory
  *

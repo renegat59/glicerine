@@ -19,21 +19,14 @@ class DirectoryValidator extends Validator
 
     private function isValidDirectory() : bool
     {
-        if (strpbrk($this->param, "?%*:|\"<>") === false) {
-            if($this->checkExists) {
-                return is_dir($this->param);
-            }
-            return true;
+        if (strpbrk($this->param, "?%*:|\"<>") !== false) {
+            $this->addError("'{param}' is not a valid directory string");
+            return false;
         }
-        return false;
-    }
-
-    protected function buildErrorMessage(): string
-    {
-        $message = "'{param}' is not a valid directory string.";
-        if($this->checkExists) {
-            $message .= " Or directory does not exist";
+        if($this->checkExists && !is_dir($this->param)) {
+            $this->addError("{param} directory does not exist");
+            return false;
         }
-        return $message;
+        return true;
     }
 }

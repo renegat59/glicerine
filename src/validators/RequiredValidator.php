@@ -12,11 +12,11 @@ class RequiredValidator extends Validator
     
     protected function validateParam(): bool
     {
-        return !empty($this->param);
+        if(empty($this->param)) {
+            $this->addError('value is required');
+            return false;
+        }
+        return true;
     }
 
-    protected function buildErrorMessage() : string
-    {
-        return "is required";
-    }
 }
