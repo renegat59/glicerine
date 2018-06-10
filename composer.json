@@ -1,5 +1,5 @@
 {
-    "name": "renegat59/glicerine",
+    "name": "renegat59/glicerine-local",
     "description": "Glicerine is a simple CLI library for PHP",
     "type": "library",
     "version": "0.0.1@dev",
@@ -25,5 +25,5 @@
     "scripts": {
         "test": "./vendor/bin/phpunit -c phpunit.xml"
     },
-    "bin": ["bin/run"]
+    "bin": ["bin/glicerine-gen"]
 }

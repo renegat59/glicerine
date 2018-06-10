@@ -50,7 +50,7 @@ class ActionPrototype
 
   public function getParamDescriptions() {
     $descriptions = $this->descriptions;
-    //add empty descriptoins for each param that has defined rules:
+    //add empty descriptions for each param that has defined rules:
     foreach($this->rules as $param => $rule) {
       if(!isset($descriptions[$param])) {
         $descriptions[$param] = '';

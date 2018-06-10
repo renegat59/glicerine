@@ -53,6 +53,7 @@ class Command
     public function validateParams($action) : bool
     {
         $actionRules = $this->getValidationRules($action);
+        var_dump($actionRules);
         $validatorFactory = new ValidatorFactory();
 
         foreach ($actionRules as $paramName => $rules) {
