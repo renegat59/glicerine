@@ -59,11 +59,13 @@ class Command
         return $this->actionInfo[$actionName];
     }
 
+    private function getValidationRules($action) {
+        return $this->actionInfo[$action] ?? [];
+    }
 
     public function validateParams($action): bool
     {
-        $ruleset = $this->validationRules;
-        $actionRules = $ruleset[$action] ?? [];
+        $actionRules = $this->getValidationRules($action);
         $validatorFactory = new ValidatorFactory();
 
         foreach($actionRules as $paramName => $rules) {

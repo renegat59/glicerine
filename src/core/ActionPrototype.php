@@ -32,7 +32,7 @@ class ActionPrototype
     if(!isset($this->rules[$param])) {
       $this->rules[$param] = [];
     }
-    $this->rules[$param].push($rule);
+    array_push($this->rules[$param], $rule);
     return $this;
   }
 
@@ -41,5 +41,9 @@ class ActionPrototype
     foreach($rules as $rule) {
       $this->addRule($param, $rule);
     }
+  }
+
+  public function getValidationRules() {
+    return $this->rules;
   }
 }
