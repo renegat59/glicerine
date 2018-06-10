@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+
+<?php
+
+$cwd = getcwd();
+echo "generating entry script... ";
+if(file_exists($cwd.'/run')) {
+  echo "SKIPPING\n";
+} else {
+  copy(__DIR__.'/../run', $cwd.'/run');
+  chmod($cwd.'/run', 0755);
+  echo "DONE\n";
+}
+
+echo "generating config.php...";
+if(file_exists($cwd.'/config.php')) {
+  echo "SKIPPING\n";
+} else {
+  copy(__DIR__.'/../config.php', $cwd.'/config.php');
+  echo "DONE\n";
+}
+
+echo "Creating commands folder...";
+$config = require($cwd.'/config.php');
+$path = $config['commandsPath'];
+if(file_exists($path)) {
+  echo "SKIPPING\n";
+} else {
+  mkdir($path, 0755, true);
+  echo "DONE\n";
+}

@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+
+<?php
+
+include_once(__DIR__.'/vendor/autoload.php');
+$config = require("config.php");
+
+$cli = new Glicerine\core\Cli(__DIR__, $config, $argv, $argc);
+$cli->start();
