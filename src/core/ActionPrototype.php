@@ -27,9 +27,19 @@ class ActionPrototype
     return $this;
   }
 
+  public function addParamRule($param, $rule)
+  {
+    if(!isset($this->rules[$param])) {
+      $this->rules[$param] = [];
+    }
+    $this->rules[$param].push($rule);
+    return $this;
+  }
+
   public function addParamRules($param, $rules)
   {
-    $this->rules[$param] = $rules;
-    return $this;
+    foreach($rules as $rule) {
+      $this->addRule($param, $rule);
+    }
   }
 }
