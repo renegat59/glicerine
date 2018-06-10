@@ -39,7 +39,7 @@ class ActionPrototype
   public function addParamRules($param, $rules)
   {
     foreach($rules as $rule) {
-      $this->addRule($param, $rule);
+      $this->addParamRule($param, $rule);
     }
   }
 
