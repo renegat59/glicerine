@@ -96,7 +96,8 @@ class Command
         Output::writeLine("Available actions:", Color::GREEN);
         $actions = $this->actions();
         foreach($actions as $action) {
-            Output::writeLine("\t- $action", Color::GREEN);
+            $description = $this->actionInfo[$action]->getDescription();
+            Output::writeLine("  - $action - $description", Color::GREEN);
         }
     }
 
