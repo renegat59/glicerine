@@ -35,8 +35,7 @@ class Command
 
     final public function actions() : array
     {
-        $definedActions = array_keys($this->actionInfo);
-        return array_merge($definedActions, ['help']);
+        return array_keys($this->actionInfo);
     }
 
     protected function &proto($actionName, $actionDescription)
@@ -53,7 +52,6 @@ class Command
     public function validateParams($action) : bool
     {
         $actionRules = $this->getValidationRules($action);
-        var_dump($actionRules);
         $validatorFactory = new ValidatorFactory();
 
         foreach ($actionRules as $paramName => $rules) {
@@ -95,21 +93,26 @@ class Command
 
     public function help()
     {
-        $command = $params->getComand();
-        Output::writeLine("Available actions in $command:", Color::GREEN);
+        $command = $this->params->getCommand();
+        Output::writeLine("Available actions in $command:");
         $actions = $this->actions();
         foreach ($actions as $action) {
             $description = $this->actionInfo[$action]->getDescription();
-            Output::writeLine("  - $action - $description", Color::GREEN);
+            Output::writeLine("  - $action: $description", Color::GREEN);
+            Output::writeLine("    Available parameters:");
             $paramDescriptions = $this->actionInfo[$action]->getParamDescriptions();
             foreach ($paramDescriptions as $param => $paramDescription) {
-                Output::writeLine("    $param: $paramDescription", Color::GREEN);
+                $validators = implode(', ', $this->actionInfo[$action]->getValidatorNames($param));
+                Output::write("    --$param ");
+                Output::write("($validators)", Color::YELLOW);
+                Output::write(": $paramDescription");
+                Output::newLine();
             }
         }
     }
 
     public function printErrors()
-    {
+    { 
         Output::writeLine('Validation errors:');
         foreach ($this->errors as $param => $errors) {
             foreach ($errors as $error) {

@@ -56,6 +56,26 @@ class ActionPrototype
         $descriptions[$param] = '';
       }
     }
+
+    return $descriptions;
+  }
+
+  public function getValidatorNames($param){
+    $validatorNames = [];
+    foreach($this->rules[$param] as $rule) {
+      $vName = '';
+      if(is_array($rule)){
+        $vName = $rule['class'];
+      }
+      if(is_string($rule)){
+        $vName = $rule;
+      }
+      if ($pos = strrpos($vName, '\\')){
+        $vName = substr($vName, $pos + 1);
+      } 
+      $validatorNames[] = strtolower(str_replace('Validator', '', $vName));
+    }
+    return $validatorNames;
   }
 
   public function getDescription() {

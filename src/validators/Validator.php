@@ -13,6 +13,7 @@ abstract class Validator
 {
     protected $param;
     protected $filter = true;
+    protected $name;
 
     /**
      * errorMessage is the message used in the default validators.
@@ -33,6 +34,16 @@ abstract class Validator
                 $this->setProperty($property, $value);
             }
         }
+    }
+
+    public function getName()
+    {
+        if(!empty($this->name)) {
+            return $this->name;
+        } else {
+            return get_class($this);
+        }
+        
     }
 
     public function setProperty($propertyName, $propertyValue)
