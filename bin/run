@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+
+<?php
+
+require(__DIR__.'/../autoload.php');
+$cwd = getcwd();
+$config = require("$cwd/config.php");
+
+$cli = new Glicerine\core\Cli(__DIR__, $config, $argv, $argc);
+$cli->start();
