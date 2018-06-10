@@ -28,5 +28,25 @@ class BooleanValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($validator->validate('1'));
         $this->assertTrue($validator->validate('0'));
 
+        $validator->setProperty('tfValues', ['si', 'no']);
+        $this->assertTrue($validator->validate('si'));
+        $this->assertTrue($validator->validate('no'));
+
+    }
+
+    public function testFilterParam()
+    {
+        $validator = new \Glicerine\validators\BooleanValidator(['filter' => true]);
+        $validator->validate('true');
+        $this->assertTrue($validator->getFilteredParam() === true);
+        
+        $validator->validate('ccc');
+        $this->assertFalse($validator->getFilteredParam() === true);
+
+        $validator->validate('false');
+        $this->assertTrue($validator->getFilteredParam() === false);
+
+        $validator->validate('0');
+        $this->assertTrue($validator->getFilteredParam() === false);
     }
 }

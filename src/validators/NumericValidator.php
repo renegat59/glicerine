@@ -11,9 +11,6 @@ class NumericValidator extends Validator
 {
     protected $onlyInt = false;
     protected $onlyFloat = false;
-    protected $onlyPositive = false;
-    protected $onlyNegative = false;
-    protected $nonZero = false;
     protected $min = false;
     protected $max = false;
     protected $range = false;
@@ -22,7 +19,7 @@ class NumericValidator extends Validator
     {
         $validNumeric = $this->validNumeric();
         $validInt = $this->validInt();
-        $validRange =  $this->validRange();
+        $validRange = $this->validRange();
         return $validNumeric && $validInt && $validRange;
     }
 
@@ -45,14 +42,17 @@ class NumericValidator extends Validator
     private function validInt()
     {
         if($this->onlyInt) {
-            return is_numeric($this->param) && $this->param == (int) $this->param;
+            return filter_var($this->param, FILTER_VALIDATE_INT);
         }
         return true;
     }
 
     private function validFloat()
     {
-        
+        if($this->onlyFloat) {
+            return filter_var($this->param, FILTER_VALIDATE_FLOAT);
+        }
+        return true;
     }
 
     protected function filterParam()

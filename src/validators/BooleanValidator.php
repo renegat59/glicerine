@@ -25,11 +25,11 @@ class BooleanValidator extends Validator
     {
         if($this->isValidTrue())
         {
-            $this->param = true;
+            return true;
         }
         if($this->isValidFalse())
         {
-            $this->param = false;
+            return false;
         }
     }
 
@@ -53,9 +53,9 @@ class BooleanValidator extends Validator
     {
         $message = '{param} is not a valid boolean value.';
         if(!empty($this->tfValues)) {
-            $message .= 'alowed values are '.implode('/', $this->tfValues);
+            $message .= ' Alowed values are '.implode('/', $this->tfValues);
         } else {
-            $message .= 'alowed values are 1/0 OR true/false';
+            $message .= ' Alowed values are 1/0 OR true/false';
         }
         return $message;
     }

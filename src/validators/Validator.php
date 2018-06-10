@@ -13,7 +13,7 @@ abstract class Validator
 {
     protected $param;
     protected $filter = true;
-    
+
     /**
      * errorMessage is the message used in the default validators.
      * If user wishes to make his own validators he can add as many messages as he want
@@ -24,14 +24,21 @@ abstract class Validator
     protected $errorMessage = '';
     private $errors = [];
 
-    protected abstract function validateParam(): bool;
+    protected abstract function validateParam() : bool;
 
-    public function __construct($params = [])
+    public function __construct($properties = [])
     {
-        foreach($params as $param => $value) {
-            if(property_exists($this, $param)) {
-                $this->$param = $value;
+        foreach ($properties as $property => $value) {
+            if (property_exists($this, $property)) {
+                $this->setProperty($property, $value);
             }
+        }
+    }
+
+    public function setProperty($propertyName, $propertyValue)
+    {
+        if (property_exists($this, $propertyName)) {
+            $this->$propertyName = $propertyValue;
         }
     }
 
@@ -40,45 +47,45 @@ abstract class Validator
         $this->errors[] = $error;
     }
 
-    public function getErrors(): array
+    public function getErrors() : array
     {
         return $this->errors;
     }
 
-    public function hasErrors(): bool
+    public function hasErrors() : bool
     {
         return !empty($this->errors);
     }
 
-    final public function validate($param): bool
+    final public function validate($param) : bool
     {
         $this->param = $param;
         $paramValid = $this->validateParam();
-        if ($this->filter) {
-            $this->filterParam();
-        }
-        if(!$paramValid) {
+        if (!$paramValid) {
             $this->addError($this->formatErrorMessage());
         }
         return $paramValid;
     }
-    
+
     protected function filterParam()
     {
         return;
     }
 
+    /**
+     * To be overriden if needed. By default returns the same param value
+     */
     public function getFilteredParam()
     {
-        return $this->param;
+        return $this->filterParam() ?? $this->param;
     }
 
-    public function isFiltering(): bool
+    public function isFiltering() : bool
     {
         return $this->filter;
     }
 
-    protected function buildErrorMessage(): string
+    protected function buildErrorMessage() : string
     {
         return $this->errorMessage;
     }
