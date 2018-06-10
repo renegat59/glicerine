@@ -18,6 +18,9 @@ class Command
      */
     private $params;
     private $errors;
+    private $validationRules = [];
+    private $currentAction = null;
+    protected $actionInfo = [];
 
     final public function __construct(CliParams $params)
     {
@@ -50,14 +53,16 @@ class Command
         return;
     }
 
-    protected function validationRules()
+    protected function &proto($actionName, $actionDescription)
     {
-        return [];
+        $this->actionInfo[$actionName] = new ActionPrototype($actionName, $actionDescription);
+        return $this->actionInfo[$actionName];
     }
+
 
     public function validateParams($action): bool
     {
-        $ruleset = $this->validationRules();
+        $ruleset = $this->validationRules;
         $actionRules = $ruleset[$action] ?? [];
         $validatorFactory = new ValidatorFactory();
 
