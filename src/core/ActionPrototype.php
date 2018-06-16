@@ -66,16 +66,10 @@ class ActionPrototype
   public function getValidatorNames($param){
     $validatorNames = [];
     foreach($this->rules[$param] as $rule) {
-      $vName = '';
-      if(is_array($rule)){
-        $vName = $rule['class'];
-      }
-      if(is_string($rule)){
-        $vName = $rule;
-      }
+      $vName = is_array($rule) ? $rule['class'] : (is_string($rule) ? $rule : '');
       if ($pos = strrpos($vName, '\\')){
         $vName = substr($vName, $pos + 1);
-      } 
+      }
       $validatorNames[] = strtolower(str_replace('Validator', '', $vName));
     }
     return $validatorNames;
